@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "RangefinderHUD",
-  "description": "Hows you how far away stuff is, useful for finding the dimensions of things.",
+  "description": "Shows you how far away stuff is, useful for finding the dimensions of things.",
   "authors": [
     "Sea Kerman"
   ],

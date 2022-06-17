@@ -10,7 +10,7 @@ import org.apache.logging.log4j.LogManager;
 @Environment(EnvType.CLIENT)
 public class RFHModMenu implements ModMenuApi
 {
-    /*@Override
+    @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         try {
             RFHConfigScreen configGUI = new RFHConfigScreen();
@@ -21,5 +21,5 @@ public class RFHModMenu implements ModMenuApi
             return null;
         }
 
-    }*/
+    }
 }

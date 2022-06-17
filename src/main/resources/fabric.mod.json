@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "id": "rangefinderhud",
+  "version": "${version}",
+
+  "name": "RangefinderHUD",
+  "description": "Hows you how far away stuff is, useful for finding the dimensions of things.",
+  "authors": [
+    "Sea Kerman"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+
+  "license": "MIT",
+  "icon": "assets/modid/icon.png",
+
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "net.seakerman.rangefinderhud.RangefinderHUD"
+    ],
+    "modmenu": [
+      "net.seakerman.rangefinderhud.config.RFHModMenu"
+    ]
+  },
+  "mixins": [
+    "rangefinderhud.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.13",
+
+    "minecraft": "~1.18.2",
+    "java": ">=17"
+  },
+  "suggests": {
+    "modmenu": ">=3.1.0",
+    "clothconfig": ">=6.2.0"
+  }
+}

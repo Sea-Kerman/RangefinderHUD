@@ -54,7 +54,7 @@ public class RFHConfigScreen
                 .build()); // Builds the option entry for cloth config)
 
         //Precision
-        category.addEntry(entryBuilder.startIntField(Text.of("Y Position"),rangefinderHUDConfigData.precision)
+        category.addEntry(entryBuilder.startIntField(Text.of("Precision"),rangefinderHUDConfigData.precision)
                 .setDefaultValue(2) // Recommended: Used when user click "Reset"
                 .setTooltip(Text.of("Number of digits after the decimal point")) // Optional: Shown when the user hover over this option
                 .setSaveConsumer(newValue -> rangefinderHUDConfigData.precision = newValue) // Recommended: Called when user save the config

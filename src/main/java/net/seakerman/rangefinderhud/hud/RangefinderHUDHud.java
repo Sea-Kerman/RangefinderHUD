@@ -52,7 +52,16 @@ public class RangefinderHUDHud
         //render the info
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(rangefinderHUDConfigData.precision);
-        String distanceString = String.format(df.format(getRangefinderReading()));
+        String distanceString;
+        double reading = getRangefinderReading();
+        if (reading < 2048)
+        {
+            distanceString = String.format(df.format(reading));
+        }
+        else
+        {
+            distanceString = "";
+        }
         TextRenderer fontRenderer = MinecraftClient.getInstance().textRenderer;
         if (fontRenderer != null)
         {

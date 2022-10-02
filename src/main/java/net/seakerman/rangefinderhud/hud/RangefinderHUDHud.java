@@ -1,26 +1,23 @@
 package net.seakerman.rangefinderhud.hud;
 
-import com.mojang.authlib.minecraft.client.MinecraftClient;
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import java.awt.*;
 import java.text.DecimalFormat;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.network.ClientPlayerEntity;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 
-import static net.seakerman.rangefinderhud.RangefinderHUD.rangefinderHUDConfigData;
+//import static net.seakerman.rangefinderhud.RangefinderHUD.rangefinderHUDConfigData;
 
 public class RangefinderHUDHud
 {
-    public static void draw(MatrixStack matrixStack)
+    public static void draw(PoseStack matrixStack)
     {
 
 
@@ -31,12 +28,11 @@ public class RangefinderHUDHud
         Minecraft.getInstance().getProfiler().pop();
     }
 
-    private static void drawInfo(MatrixStack matrixStack)
+    private static void drawInfo(PoseStack matrixStack)
     {
-        int x = rangefinderHUDConfigData.x;
+        /*int x = rangefinderHUDConfigData.x;
         int y = rangefinderHUDConfigData.y;
         int offset = rangefinderHUDConfigData.offset;
-
 
         int color1 = getColorFromRGBA(new Color(rangefinderHUDConfigData.color1_red,
                 rangefinderHUDConfigData.color1_green,
@@ -47,10 +43,18 @@ public class RangefinderHUDHud
                 rangefinderHUDConfigData.color2_green,
                 rangefinderHUDConfigData.color2_blue,
                 rangefinderHUDConfigData.color2_alpha));
+        */
+
+        int x = 580;
+        int y = 525;
+        int offset = 10;
+        int color1 = getColorFromRGBA(new Color(0,200,50,255));
+        int color2 = getColorFromRGBA(new Color(200,200,200,255));
 
         //render the info
         DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(rangefinderHUDConfigData.precision);
+        //df.setMaximumFractionDigits(rangefinderHUDConfigData.precision);
+        df.setMaximumFractionDigits(2);
         String distanceString;
         double reading = getRangefinderReading();
         if (reading < 2048)
@@ -61,13 +65,15 @@ public class RangefinderHUDHud
         {
             distanceString = "";
         }
-        TextRenderer fontRenderer = MinecraftClient.getInstance().textRenderer;
+        Font fontRenderer = Minecraft.getInstance().font;
         if (fontRenderer != null)
         {
-            if (rangefinderHUDConfigData.onOff)
+            //if (rangefinderHUDConfigData.onOff)
+            if(true)
             {
-                fontRenderer.drawWithShadow(matrixStack, "--->||", x, y - offset, color1);
-                fontRenderer.drawWithShadow(matrixStack, distanceString, x, y, color2);
+                fontRenderer.drawShadow(matrixStack, "--->||", x, y - offset, color1);
+                fontRenderer.drawShadow(matrixStack, distanceString, x, y, color2);
+
             }
         }
     }
@@ -77,7 +83,7 @@ public class RangefinderHUDHud
         return (tempcolor.getRGB() & 0x00ffffff) | (tempcolor.getAlpha() << 24);
     }
 
-    private double getRangefinderReading()
+    private static double getRangefinderReading()
     {
         Vec3 eyePos = new Vec3(0,0,0);
         Vec3 resultVector = new Vec3(0,0,0);
@@ -97,7 +103,7 @@ public class RangefinderHUDHud
         }
         return resultVector.length();
     }
-    private Vec3 getLookedAtBLockPos()
+    private static Vec3 getLookedAtBLockPos()
     {
         Player player = Minecraft.getInstance().player;
         Vec3 hitPos = new Vec3(0,0,0);

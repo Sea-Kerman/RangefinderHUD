@@ -14,8 +14,8 @@ public class Config
     public int color1_blue = 50;
     public int color1_alpha = 255;
 
-    public int color2_red = 0;
+    public int color2_red = 200;
     public int color2_green = 200;
-    public int color2_blue = 50;
+    public int color2_blue = 200;
     public int color2_alpha = 255;
 }

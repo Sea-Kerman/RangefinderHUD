@@ -30,7 +30,9 @@ public class RangefinderHUDHud
 
     private static void drawInfo(PoseStack matrixStack)
     {
-        /*int x = rangefinderHUDConfigData.x;
+        /*
+        GOTTA SET UP CONFIGS
+        int x = rangefinderHUDConfigData.x;
         int y = rangefinderHUDConfigData.y;
         int offset = rangefinderHUDConfigData.offset;
 

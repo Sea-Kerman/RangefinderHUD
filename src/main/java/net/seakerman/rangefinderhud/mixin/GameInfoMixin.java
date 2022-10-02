@@ -21,15 +21,15 @@ import static net.seakerman.rangefinderhud.RangefinderHUD.rangefinderHUDConfigDa
 @Mixin(value = InGameHud.class)
 public abstract class GameInfoMixin
 {
-	@Shadow
-	@Final
-	private MinecraftClient client;
+    @Shadow
+    @Final
+    private MinecraftClient client;
 
-	@Inject(method = "render", at = @At("HEAD"))
-	private void onDraw(MatrixStack matrixStack, float esp, CallbackInfo ci) {
-		if (!this.client.options.debugEnabled && rangefinderHUDConfigData != null) {
-			// Draw Game info on every GameHud render
-			RangefinderHUDHud.draw(matrixStack);
-		}
-	}
+    @Inject(method = "render", at = @At("HEAD"))
+    private void onDraw(MatrixStack matrixStack, float esp, CallbackInfo ci) {
+        if (!this.client.options.debugEnabled && rangefinderHUDConfigData != null) {
+            // Draw Game info on every GameHud render
+            RangefinderHUDHud.draw(matrixStack);
+        }
+    }
 }

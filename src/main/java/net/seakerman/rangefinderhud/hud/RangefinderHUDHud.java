@@ -1,26 +1,25 @@
 package net.seakerman.rangefinderhud.hud;
 
+import com.mojang.authlib.minecraft.client.MinecraftClient;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
 import java.text.DecimalFormat;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
 
 import static net.seakerman.rangefinderhud.RangefinderHUD.rangefinderHUDConfigData;
 
-@Environment(EnvType.CLIENT)
 public class RangefinderHUDHud
 {
-
     public static void draw(MatrixStack matrixStack)
     {
 
@@ -29,7 +28,7 @@ public class RangefinderHUDHud
 
         drawInfo(matrixStack);
 
-        MinecraftClient.getInstance().getProfiler().pop();
+        Minecraft.getInstance().getProfiler().pop();
     }
 
     private static void drawInfo(MatrixStack matrixStack)
@@ -78,41 +77,41 @@ public class RangefinderHUDHud
         return (tempcolor.getRGB() & 0x00ffffff) | (tempcolor.getAlpha() << 24);
     }
 
-    private static double getRangefinderReading()
+    private double getRangefinderReading()
     {
-        float reading = 0;
-        Vec3d eyePos = new Vec3d(0,0,0);
-        Vec3d resultVector = new Vec3d(0,0,0);
-        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+        Vec3 eyePos = new Vec3(0,0,0);
+        Vec3 resultVector = new Vec3(0,0,0);
+        Player player = Minecraft.getInstance().player;
+        Vec3 lookedAtBlockPos = getLookedAtBLockPos();
         if (player != null)
         {
-            eyePos = player.getEyePos();
+            eyePos = new Vec3(player.getEyePosition().x,player.getEyePosition().y,player.getEyePosition().z);
         }
-        if (getLookedAtBLockPos().length() > .0001)
+        if (lookedAtBlockPos.length() > .0001)
         {
             resultVector = eyePos.subtract(getLookedAtBLockPos());
         }
         else
         {
-            resultVector = new Vec3d(2048,0,0);
+            resultVector = new Vec3(2048,0,0);
         }
         return resultVector.length();
     }
-    private static Vec3d getLookedAtBLockPos()
+    private Vec3 getLookedAtBLockPos()
     {
-        ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        Vec3d hitPos = new Vec3d(0,0,0);
+        Player player = Minecraft.getInstance().player;
+        Vec3 hitPos = new Vec3(0,0,0);
         if (player != null)
         {
-            HitResult blockHit = player.raycast(2048, 0.0f, false);
+            HitResult blockHit = player.pick(2048, 0.0f, false);
             if (blockHit.getType() == HitResult.Type.BLOCK)
             {
                 BlockPos blockHitPos = ((BlockHitResult) blockHit).getBlockPos();
-                hitPos = new Vec3d(blockHitPos.getX(),blockHitPos.getY(),blockHitPos.getZ());
+                hitPos = new Vec3(blockHitPos.getX(),blockHitPos.getY(),blockHitPos.getZ());
             }
             else
             {
-                hitPos = new Vec3d(-.5,-.5,-.5);
+                hitPos = new Vec3(-.5,-.5,-.5);
             }
         }
         hitPos = hitPos.add(.5,.5,.5);

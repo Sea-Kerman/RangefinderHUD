@@ -1,24 +1,16 @@
 package net.seakerman.rangefinderhud;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.seakerman.rangefinderhud.config.Config;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import net.seakerman.rangefinderhud.config.ModConfig;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 
 public class RangefinderHUD implements ClientModInitializer {
-	public static Config rangefinderHUDConfigData;
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
-	public static final Logger LOGGER = LoggerFactory.getLogger("rangefinderhud");
+	public static ModConfig config;
+	public static final Logger LOGGER = LoggerFactory.getLogger("RangefinderHUD");
 
 	@Override
 	public void onInitializeClient() {
@@ -27,43 +19,9 @@ public class RangefinderHUD implements ClientModInitializer {
 		// Proceed with mild caution.
 
 		LOGGER.info("RangefinderHUD started");
-		rfh$loadConfig();
+		AutoConfig.register(ModConfig.class, JanksonConfigSerializer::new);
+		config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
+		LOGGER.info("Initialized successfully.");
 	}
 
-	// config code based on bedrockify & actually unbreaking fabric config code
-	// https://github.com/juancarloscp52/BedrockIfy/blob/1.17.x/src/main/java/me/juancarloscp52/bedrockify/Bedrockify.java
-	// https://github.com/wutdahack/ActuallyUnbreakingFabric/blob/1.18.1/src/main/java/wutdahack/actuallyunbreaking/ActuallyUnbreaking.java
-	public static void rfh$loadConfig() {
-		File config = new File(FabricLoader.getInstance().getConfigDir().toFile(), "rangefinderhud.json");
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		if (config.exists()) {
-			try {
-				FileReader fileReader = new FileReader(config);
-				rangefinderHUDConfigData = gson.fromJson(fileReader, Config.class);
-				fileReader.close();
-				saveConfig();
-			} catch (IOException e) {
-				System.out.println("Config could not be loaded, using defaults");
-			}
-		} else {
-			rangefinderHUDConfigData = new Config();
-			saveConfig();
-		}
-	}
-
-	public static void saveConfig() {
-		File config = new File(FabricLoader.getInstance().getConfigDir().toFile(), "rangefinderhud.json");
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		if (!config.getParentFile().exists()) {
-			//noinspection ResultOfMethodCallIgnored
-			config.getParentFile().mkdir();
-		}
-		try {
-			FileWriter fileWriter = new FileWriter(config);
-			fileWriter.write(gson.toJson(rangefinderHUDConfigData));
-			fileWriter.close();
-		} catch (IOException e) {
-			System.out.println("Config file could not be saved");
-		}
-	}
 }

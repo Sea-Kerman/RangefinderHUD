@@ -5,7 +5,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.hit.BlockHitResult;
@@ -15,43 +15,34 @@ import net.minecraft.util.math.Vec3d;
 import java.awt.*;
 import java.text.DecimalFormat;
 
-import static net.seakerman.rangefinderhud.RangefinderHUD.rangefinderHUDConfigData;
+import net.seakerman.rangefinderhud.RangefinderHUD;
 
 @Environment(EnvType.CLIENT)
 public class RangefinderHUDHud
 {
 
-    public static void draw(MatrixStack matrixStack)
+    public static void draw(DrawContext context)
     {
-
-
         RenderSystem.enableBlend();
-
-        drawInfo(matrixStack);
+        drawInfo(context);
 
         MinecraftClient.getInstance().getProfiler().pop();
     }
 
-    private static void drawInfo(MatrixStack matrixStack)
+    private static void drawInfo(DrawContext context)
     {
-        int x = rangefinderHUDConfigData.x;
-        int y = rangefinderHUDConfigData.y;
-        int offset = rangefinderHUDConfigData.offset;
+        int x = RangefinderHUD.config.x;
+        int y = RangefinderHUD.config.y;
+        int offset = RangefinderHUD.config.offset;
 
 
-        int color1 = getColorFromRGBA(new Color(rangefinderHUDConfigData.color1_red,
-                rangefinderHUDConfigData.color1_green,
-                rangefinderHUDConfigData.color1_blue,
-                rangefinderHUDConfigData.color1_alpha));
+        int color1 = RangefinderHUD.config.color1;
 
-        int color2 = getColorFromRGBA(new Color(rangefinderHUDConfigData.color2_red,
-                rangefinderHUDConfigData.color2_green,
-                rangefinderHUDConfigData.color2_blue,
-                rangefinderHUDConfigData.color2_alpha));
+        int color2 = RangefinderHUD.config.color2;
 
         //render the info
         DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(rangefinderHUDConfigData.precision);
+        df.setMaximumFractionDigits(RangefinderHUD.config.precision);
         String distanceString;
         double reading = getRangefinderReading();
         if (reading < 2048)
@@ -65,17 +56,9 @@ public class RangefinderHUDHud
         TextRenderer fontRenderer = MinecraftClient.getInstance().textRenderer;
         if (fontRenderer != null)
         {
-            if (rangefinderHUDConfigData.onOff)
-            {
-                fontRenderer.drawWithShadow(matrixStack, "--->||", x, y - offset, color1);
-                fontRenderer.drawWithShadow(matrixStack, distanceString, x, y, color2);
-            }
+                context.drawText(fontRenderer, "--->||", x, y - offset, color1, true);
+                context.drawText(fontRenderer, distanceString, x, y, color2, true);
         }
-    }
-
-    private static int getColorFromRGBA(Color tempcolor)
-    {
-        return (tempcolor.getRGB() & 0x00ffffff) | (tempcolor.getAlpha() << 24);
     }
 
     private static double getRangefinderReading()

@@ -1,0 +1,18 @@
+{
+  "text.autoconfig.rangefinderhud.title": "RangefinderHUD config",
+  "text.autoconfig.rangefinderhud.option.onOff": "On/Off",
+  "text.autoconfig.rangefinderhud.option.onOff.@Tooltip": "Turns it on and off",
+  "text.autoconfig.rangefinderhud.option.x": "X Position",
+  "text.autoconfig.rangefinderhud.option.x.@Tooltip": "Suggest 580 for 1920x1080 GUI scale 2",
+  "text.autoconfig.rangefinderhud.option.y": "Y Position",
+  "text.autoconfig.rangefinderhud.option.y.@Tooltip": "Suggest 525 for 1920x1080 GUI scale 2",
+  "text.autoconfig.rangefinderhud.option.offset": "Offset",
+  "text.autoconfig.rangefinderhud.option.offset.@Tooltip": "Offset between arrow and reading",
+  "text.autoconfig.rangefinderhud.option.precision": "Precision",
+  "text.autoconfig.rangefinderhud.option.precision.@Tooltip": "Number of digits after the decimal point",
+  "text.autoconfig.rangefinderhud.option.color1": "Arrow color",
+  "text.autoconfig.rangefinderhud.option.color2": "Reading color",
+
+  "modmenu.summaryTranslation.rangefinderhud": "A status bar that shows how full your inventory is",
+  "modmenu.descriptionTranslation.rangefinderhud": "A status bar that shows how full your inventory is"
+}

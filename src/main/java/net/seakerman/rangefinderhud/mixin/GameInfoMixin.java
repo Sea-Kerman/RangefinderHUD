@@ -4,8 +4,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.hud.DebugHud;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.util.math.MatrixStack;
 import net.seakerman.rangefinderhud.RangefinderHUD;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,9 +25,11 @@ public abstract class GameInfoMixin
 	@Final
 	private MinecraftClient client;
 
+	@Shadow public abstract DebugHud getDebugHud();
+
 	@Inject(method = "render", at = @At("HEAD"))
 	private void onDraw(DrawContext context, float tickDelta, CallbackInfo ci) {
-		if (!this.client.options.debugEnabled && RangefinderHUD.config != null) {
+		if (!this.getDebugHud().shouldShowDebugHud() && RangefinderHUD.config != null) {
 			if(RangefinderHUD.config.onOff)
 			{
 				// Draw Game info on every GameHud render
